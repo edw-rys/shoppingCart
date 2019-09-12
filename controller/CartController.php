@@ -6,6 +6,10 @@ class CartController {
     public function __construct() {
         $this->productController = new ProductController();
     }
+    /* 
+    * agregar item, se guarda en una variable de sesión
+    * $_SESSION['items'] [  ["cant"=>cantidad, ]  "id_item"=> id ]
+    */
     public function addItem(){
         if(isset($_REQUEST['item'])){
             if(!isset($_SESSION['items']))$_SESSION['items']=array();
@@ -34,12 +38,14 @@ class CartController {
             echo 0;
         }
     }    
+    // retorna la cantidad de items que se han agregado
     public function count(){
         if(!isset($_SESSION['items']))$_SESSION['items']=array();
         $items=$_SESSION['items'];
 
         echo count($items);
     }  
+    // obtiene los datos del producto por cada opción agregada
     public function get()
     {
         if(!isset($_SESSION['items']))$_SESSION['items']=array();
@@ -53,11 +59,14 @@ class CartController {
         }
         echo json_encode($products);
     }
+    // comprar
+    // INCOMPLETA
     public function buy(){
         if(!isset($_SESSION['USER']))
             header("Location:index.php?c=index&a=static&p=login");
         
     }
+    // elimina un item del carro
     public function removeItem(){
         if(isset($_REQUEST['item'])){
             if(!isset($_SESSION['items']))return 0;
