@@ -201,4 +201,19 @@ class ProductDAO{
             die($e->getTrace()); // traza del error
         }
     }
+    // Obtener producto por id
+    public function queryById($id_product){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare("select * from product as p inner join category_p as ctg on ctg.id_ctg = p.id_ctg_p where id_prod=? " );
+            $parametros=array($id_product);
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_OBJ);
+            if(!empty($resultSet))
+                return $resultSet[0];
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
 }

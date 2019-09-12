@@ -4,6 +4,18 @@ toggle=(query, class_)=>{
         element.classList.toggle(class_);
     }
 }
+addClass=(query, class_)=>{
+    var element=document.querySelector(query);
+    if(element!=null){
+        element.classList.add(class_);
+    }
+}
+removeClass=(query, class_)=>{
+    var element=document.querySelector(query);
+    if(element!=null){
+        element.classList.remove(class_);
+    }
+}
 const panel=document.getElementById("panelMssg");
 
 controlPanelMssg=(values)=>{
@@ -24,3 +36,4 @@ controlPanelMssgClear=()=>{
     panel.children[1].firstElementChild.innerHTML="";
     panel.firstElementChild.firstElementChild.innerHTML="";
 }
+

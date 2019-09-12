@@ -3,6 +3,17 @@
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
 html{
 	scroll-behavior: smooth;
 }
@@ -17,7 +28,8 @@ html{
     --success:                  rgb(154, 228, 171);
     --info:                     rgb(147, 221, 235);
     --dark:                     #161716;
-    --bck-panel-content:        #fff;
+	--bck-panel-content:        #fff;
+	--color-head:				#fff;
 }
 .male,.masculino{
 	--color-gender:				#005797;
@@ -76,6 +88,13 @@ p,a,i,span,li{
 }
 
 /* posicionamiento */
+.fixed-center , .center-fixed{
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%) 
+}
 .abs-center,.center-abs{
 	position: absolute;
 	left: 50%;

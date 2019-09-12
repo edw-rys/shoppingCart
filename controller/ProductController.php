@@ -38,4 +38,7 @@ class ProductController{
             session_start();
         }
     }
+    public function getProductById($idP){
+        return $this->productDao->queryById($idP);        
+    }
 }
