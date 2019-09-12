@@ -13,7 +13,7 @@
             </label>
             <label class="grid grid-c-2" style="margin:10px 0">
                 <span>Contraseña: </span>
-                <input class="input-txt" type="text" name="password">
+                <input class="input-txt" type="password" name="password">
             </label>
             <label class="flex-center flex-y">
                 <input type="submit" value="Iniciar" class="button-send ">

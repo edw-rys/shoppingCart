@@ -5,12 +5,13 @@ class User{
     private $username;
     private $password;
     private $last_name;
-    private $bithday;
+    private $birthdate;
     private $mail;
-    private $id_gener;
+    private $id_gender;
     private $id_country;
     private $id_typeuser;
-    public function __construct(){}
+    public function __construct(){
+    }
     
         function getId_user() {
             return $this->id_user;
@@ -32,16 +33,16 @@ class User{
             return $this->last_name;
         }
     
-        function getBithday() {
-            return $this->bithday;
+        function getBirthdate() {
+            return $this->birthdate;
         }
     
         function getMail() {
             return $this->mail;
         }
     
-        function getId_gener() {
-            return $this->id_gener;
+        function getId_gender() {
+            return $this->id_gender;
         }
     
         function getId_country() {
@@ -72,16 +73,16 @@ class User{
             $this->last_name = $last_name;
         }
     
-        function setBithday($bithday) {
-            $this->bithday = $bithday;
+        function setBirthdate($birthdate) {
+            $this->birthdate = $birthdate;
         }
     
         function setMail($mail) {
             $this->mail = $mail;
         }
     
-        function setId_gener($id_gener) {
-            $this->id_gener = $id_gener;
+        function setId_gender($id_gender) {
+            $this->id_gender = $id_gender;
         }
     
         function setId_country($id_country) {

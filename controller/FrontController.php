@@ -1,12 +1,11 @@
 <?php
-include_once "model/DTO/User/User.php";
+require_once "model/DTO/User/User.php";
 class FrontController {
 
     public function __construct() {     
     }
 
     public function route() {
-
         $this->sessionStart();
         $controller = (isset($_REQUEST['c'])) ? $_REQUEST['c'] : 'Index';
         $action = (isset($_REQUEST['a'])) ? $_REQUEST['a'] : 'query';
@@ -22,4 +21,5 @@ class FrontController {
             session_start();
         }
     }
+    
 }

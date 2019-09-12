@@ -1,7 +1,7 @@
 <?php
-include_once "model/DTO/Product/product.php";
-include_once "model/DTO/Product/CategoryProduct.php";
-include_once "model/Connection.php";
+require_once "model/DTO/Product/product.php";
+require_once "model/Connection.php";
+require_once "model/DTO/Product/CategoryProduct_.php";
 class ProductDAO{
     private $connection;
     public function __construct(){
@@ -61,7 +61,7 @@ class ProductDAO{
             $sentencia = $this->connection->prepare("select * from category_p ");            
             $parametros = array();
             $sentencia->execute($parametros);
-            $resultSet = $sentencia->fetchAll(PDO::FETCH_CLASS,"CategoryProduct");
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_CLASS,"CategoryProduct_");
             
             return $resultSet;
         }catch(Exception $e){
@@ -75,7 +75,7 @@ class ProductDAO{
             $sentencia = $this->connection->prepare("select * from category_p where id_ctg=?");            
             $parametros = array($id);
             $sentencia->execute($parametros);
-            $resultSet = $sentencia->fetchAll(PDO::FETCH_CLASS,"CategoryProduct");
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_CLASS,"CategoryProduct_");
             if(!empty($resultSet))
             return $resultSet[0];
         }catch(Exception $e){
@@ -108,5 +108,97 @@ class ProductDAO{
             array_push( $listProducts,$prod);
         }
         return $listProducts;
+    }
+
+    // productos que le gustaron al usuario
+    public function queryForLike($id_user,$query){
+        if(!$this->connection) return null;
+        $consulta="";
+        $parametros=array();
+        if(empty($query)){
+            $consulta="select ".
+            "id_prod , p.name_prod, p.description, p.url_img, p.price,p.discount,p.id_ctg_p,p.quantity ".
+            "from i_like as il ".
+            "inner join product as p on p.id_prod=il.id_product ".
+            "where id_user=?;";
+            $parametros=array($id_user);
+        }else{
+            $consulta="select ".
+            "id_prod , p.name_prod, p.description, p.url_img, p.price,p.discount,p.id_ctg_p ,p.quantity".
+            "from i_like as il ".
+            "inner join product as p on p.id_prod=il.id_product ".
+            "where id_user=? and like CONCAT(%,?,%);";
+            $parametros=array($id_user,$query);
+        }
+        try{
+            $sentencia = $this->connection->prepare($consulta);
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_OBJ);
+            return $resultSet;
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
+    // productos que le gustaron al usuario
+    public function queryForBuyout($id_user,$query){
+        if(!$this->connection) return null;
+        $consulta="";
+        $parametros=array();
+        if(empty($query)){
+            $consulta="select ".
+            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale  ".
+            "from sales as s ".
+            "inner join product as p on p.id_prod=s.id_product ".
+            "where id_user=?;";
+            $parametros=array($id_user);
+        }else{
+            $consulta="select ".
+            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale  ".
+            "from sales as s ".
+            "inner join product as p on p.id_prod=s.id_product ".
+            "where id_user=? and  p.name_prod like CONCAT(%,?,%);";
+            $parametros=array($id_user,$query);
+        }
+        try{
+            $sentencia = $this->connection->prepare($consulta);
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_OBJ);
+            return $resultSet;
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
+
+    // 
+    public function queryForSale($query){
+        if(!$this->connection) return null;
+        $consulta="";
+        $parametros=array();
+        if(empty($query)){
+            $consulta="select ".
+            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale , us.username,CONCAT( us.name_user,' ' , us.last_name) as name_ln,  YEAR(now())-YEAR(us.birthdate) as edad ".
+            "from sales as s ".
+            "inner join product as p on p.id_prod=s.id_product ".
+            "inner join user as us on us.id_user = s.id_user";
+        }else{
+            $consulta="select ".
+            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale , us.username,CONCAT( us.name_user,' ' , us.last_name) as name_ln,  YEAR(now())-YEAR(us.birthdate) as edad ".
+            "from sales as s ".
+            "inner join product as p on p.id_prod=s.id_product ".
+            "inner join user as us on us.id_user = s.is_user".
+            "where like  p.name_prod CONCAT(%,?,%);";
+            $parametros=array($id_user,$query);
+        }
+        try{
+            $sentencia = $this->connection->prepare($consulta);
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_OBJ);
+            return $resultSet;
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
     }
 }

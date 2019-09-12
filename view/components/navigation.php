@@ -16,6 +16,7 @@
             // print_r($user);
             ?>
             <li><a href="index.php?c=user&a=profile" class="flex-center"><?php echo $user->getName_user()?></a></li>
+            <li><a href="index.php?c=user&a=logout" class="flex-center">Cerrar Sesión</a></li>
             <?php
         }else{?>
             <li><a href="index.php?c=index&a=static&p=login" class="flex-center">Login</a></li>

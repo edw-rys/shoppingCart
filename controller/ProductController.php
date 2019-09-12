@@ -1,7 +1,8 @@
 <?php
-include_once 'config/config.php';
-include_once "model/DAO/ProductDAO.php";
-include_once "model/DTO/Product/Product.php";
+require_once 'config/config.php';
+require_once "model/DTO/Product/Product.php";
+// require_once "model/DTO/Product/CategoryProduct_.php";
+require_once "model/DAO/ProductDAO.php";
 class ProductController{
     private $productDao;
     public function __construct(){
@@ -22,8 +23,16 @@ class ProductController{
         require_once "view/Product/Product.php";
         require_once FOOTER;
     }
-
-
+    public function products_like($idUser,$query){
+        $products = $this->productDao->queryForLike($idUser,$query);
+        return $this->productDao->getProductsClass($products);
+    }
+    public function products_buyout($idUser,$query){
+        return $this->productDao->queryForBuyout($idUser,$query);
+    }
+    public function products_Sale($query){
+        return $this->productDao->queryForSale($query);
+    }
     public function sessionStart(){
         if (!isset($_SESSION)) {
             session_start();

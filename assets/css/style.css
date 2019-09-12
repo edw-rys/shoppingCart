@@ -1,19 +1,20 @@
 /* carro de compras */
 @keyframes a-cart{
     0%{
-        right: -30px;
+        right: -80px;
     }
     100%{
         right: 0;
     }
 }
 #shopping-cart{
+    z-index: 999;
     position: fixed;
-    right: -30px;
+    right: -80px;
     top: 200px;
     background: #0097E3;
     padding: 0.5em;
-    border-radius: 50% 0 0 50%;
+    border-radius: 35% 0 0 35%;
     padding: 15px;
     cursor: pointer;    
 }
@@ -33,7 +34,7 @@
 #shopping-cart .cant-items{
     position: absolute;
     top: -10px;
-    right: 30px;
+    right: 80px;
     background: red;
     border-radius: 50%;
     padding: 5px 10px;
@@ -261,8 +262,23 @@ footer .grid-column .content{
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    /* overflow-y: hidden; */
     min-height: var(--mix-height-panel);
+}
+.all-items{
+    display: grid;
+    --mix-height-panel: 250px;
+    min-height: var(--mix-height-panel);    
+    grid-template-columns: repeat(1,1fr);
+    border: 1px solid var(--color-gender);
+    padding: 5px;
+    border-radius: 7px;
+}
+.all-items .producto{
+    --width-card-product:300px;
+    /* max-height: var(--mix-height-panel); */
+}
+.all-items .producto img{
+    height: initial;
 }
 .producto{
     position: relative;
@@ -300,6 +316,7 @@ footer .grid-column .content{
     border-radius: 5px;
 }
 .producto:hover > .buy{
+
     opacity: 1;
 }
 .producto .buy{
@@ -355,6 +372,12 @@ footer .grid-column .content{
     }
     #productos {
         --mix-height-panel: 350px;
+    }
+    .all-items{
+        --mix-height-panel: 350px;
+        /* display: flex; */
+        /* flex-wrap: wrap; */
+        grid-template-columns: repeat(2,1fr)
     }
     .producto{
         --width-card-product:300px;
@@ -422,6 +445,43 @@ input[name="gender"]{
     border-radius: 10px;
     color: #fff;
     font-size: 1.2em;
+}
+
+
+
+/* Perfil */
+.my-profile .container-profile{
+    width: 95%;
+}
+
+.my-data{
+    display: flex;
+    flex-flow: column;
+}
+.picture{
+    border: 1px solid var(--color-gender);
+    padding: 5px;
+    border-radius: 7px;
+    margin: 10px 0;
+}
+@media(min-width: 750px){
+    .my-profile{ 
+        flex-flow: row;
+    }
+    .my-profile .container-profile{ 
+        width: 90%;
+        grid-template-columns:1fr 2.5fr;
+        grid-gap: 40px;
+    }
+}
+
+.table-style {
+    border: 1px solid var(--color-gender);
+}   
+.table-style td{
+    border-bottom: 1px solid var(--color-gender);
+    text-align: center; 
+    /* border-top: 1px solid var(--color-gender); */
 }
 
 @keyframes  animation-heart{

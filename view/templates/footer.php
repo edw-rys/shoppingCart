@@ -22,5 +22,6 @@
     <?php include_once "view/components/panels.php"?>
     <script src="<?php echo ROUTEJS.'/index.js'?>"></script>
     <script src="<?php echo ROUTEJS."/validate.js"?>"></script>
+    <script src="<?php echo ROUTEJS."/ajax.js"?>"></script>
 </body>
 </html>

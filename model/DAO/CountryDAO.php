@@ -7,7 +7,20 @@ class CountryDAO{
         $this->connection =  Connection::getConnection();
     }
     // País
-
+    public function getCountryById($id_country){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare("select * from country where id_country=?");
+            $parametros = array($id_country);
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_OBJ);
+            if(!empty($resultSet))
+                return $resultSet[0];
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
     public function getAllCountry($id_continent){
         if(!$this->connection) return null;
         try{

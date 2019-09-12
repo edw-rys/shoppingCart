@@ -1,5 +1,5 @@
 <?php
-class CategoryProduct{
+class CategoryProduct_{
     private $id_ctg;
     private $name_ctg;
     public function __construct(){}
@@ -18,4 +18,5 @@ class CategoryProduct{
     function setName($name) {
         $this->name = $name_ctg;
     }
+    public function __destruct(){}
 }

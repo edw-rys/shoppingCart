@@ -19,10 +19,10 @@ html{
     --dark:                     #161716;
     --bck-panel-content:        #fff;
 }
-.male{
+.male,.masculino{
 	--color-gender:				#005797;
 }
-.female{
+.female, .femenino{
 	--color-gender:				#F1005B;
 }
 .like{
@@ -209,4 +209,7 @@ p,a,i,span,li{
 	border-bottom: 1px solid #000;
     outline: none;
     font-size: 1em;
+}
+.wid-100p{
+	width: 100%;
 }
