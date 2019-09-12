@@ -1,7 +1,7 @@
 <?php
 //rutas generales
 define("SERVER", "localhost:81");
-define("NAMEAPP", "AplicacionCompras");
+define("NAMEAPP", "shoppingCart");
 define("ROUTEAPP","http://".SERVER."/".NAMEAPP);
 
 // RUTA RECURSOS
