@@ -62,7 +62,8 @@ insert into user(username,password,name_user, last_name,birthdate, mail,id_gende
 	("user2", "RHZVb0NLUjgyTWp2bmJPYUc4UCtUZz09","Rbt","I","1990-1-1","us1@hotmail.com",1,5, 200),
 	("user3","RHZVb0NLUjgyTWp2bmJPYUc4UCtUZz09","Shs","S","1997-1-1","us2@gmail.com",2,3, 200),
 	("user4","RHZVb0NLUjgyTWp2bmJPYUc4UCtUZz09","Mss","P","1997-1-1","uss@gmail.com",2,3, 200);
-
+-- admin admin
+-- user2 123
 -- ctg productos
 create table category_p(
 	id_ctg int auto_increment,
@@ -96,19 +97,28 @@ insert into product values
 	(7,"tarta de manzana","tarta 1","assets/img/picture/img7.jpg",10,14.2,10,4),
 	(8,"tarta de piña","tarta 2","assets/img/picture/img8.jpg",20,12.2,40,4);
 
+-- tabla de factura
+create table bill(
+	id_bill int auto_increment,
+	id_user int not null,
+	price int not null,
+	date_sale date not null,
+	PRIMARY KEY (id_bill),
+	FOREIGN KEY (id_user) REFERENCES user(id_user)
+)ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- tabla de ventas
 create table sales(
 	id_sale int auto_increment,
-	id_user int not null,
 	id_product int not null,
 	price int not null,
-	date_sale date not null,
+	id_bill INT not null,
 	PRIMARY KEY (id_sale),
-	FOREIGN KEY (id_user) REFERENCES user(id_user),
-	FOREIGN KEY (id_product) REFERENCES product(id_prod)
+	FOREIGN KEY (id_product) REFERENCES product(id_prod),
+	FOREIGN KEY (id_bill) REFERENCES bill(id_bill)
 )ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-insert into sales values(1,1,1,20.2,now());
+-- insert into sales values(1,2,1,20.2,now());
 -- tabla de deseos
 create table i_like(
 	id_like int auto_increment,
@@ -118,3 +128,4 @@ create table i_like(
 	FOREIGN KEY (id_user) REFERENCES user(id_user),
 	FOREIGN KEY (id_product) REFERENCES product(id_prod)
 )ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
+

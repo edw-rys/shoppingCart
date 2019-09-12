@@ -124,10 +124,10 @@ class UserController{
         // Productos que le gusta
         $itemsLike=$this->productController->products_like($user->getId_user(),"");
         // Productos que ha comprado
-        if($user->getId_typeuser()==CLIENT)
-            $itemsBuyout=$this->productController->products_buyout($user->getId_user(),"");
-        else if($user->getId_typeuser()==ADMIN)
-            $items_Sale=$this->productController->products_Sale("");
+        // if($user->getId_typeuser()==CLIENT)
+            // $itemsBuyout=$this->productController->products_buyout($user->getId_user(),"");
+        // else if($user->getId_typeuser()==ADMIN)
+            // $items_Sale=$this->productController->products_Sale("");
 
         require_once HEADER;
         require_once 'view/User/profile.php';

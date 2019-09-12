@@ -7,6 +7,7 @@ class UserDAO{
     public function __construct(){
         $this->connection =  Connection::getConnection();
     }
+    
     public function checkUserName(User $user ){
         if(!$this->connection) return null;
         try{

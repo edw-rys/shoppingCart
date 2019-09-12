@@ -18,5 +18,9 @@
 			return $output;
 		}
 	}
-	// $e=new Encrypt();
+	$e=new Encrypt();
 	// echo $e->encryption("admin");
+	// echo $e->decryption("TkNOcEc3UlVrQnQ4YTNQVzJ0YjllQT09");
+	// echo $e->decryption("RHZVb0NLUjgyTWp2bmJPYUc4UCtUZz09");
+	// echo $e->decryption("RHZVb0NLUjgyTWp2bmJPYUc4UCtUZz09");
+	// echo $e->decryption("RHZVb0NLUjgyTWp2bmJPYUc4UCtUZz09");

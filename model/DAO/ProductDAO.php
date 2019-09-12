@@ -1,7 +1,10 @@
 <?php
 require_once "model/DTO/Product/product.php";
+require_once "model/DTO/Product/Bill.php";
 require_once "model/Connection.php";
 require_once "model/DTO/Product/CategoryProduct_.php";
+// require_once "model/DAO/UserDAO.php";
+
 class ProductDAO{
     private $connection;
     public function __construct(){
@@ -147,14 +150,14 @@ class ProductDAO{
         $parametros=array();
         if(empty($query)){
             $consulta="select ".
-            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale  ".
+            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p ".
             "from sales as s ".
             "inner join product as p on p.id_prod=s.id_product ".
             "where id_user=?;";
             $parametros=array($id_user);
         }else{
             $consulta="select ".
-            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale  ".
+            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p ".
             "from sales as s ".
             "inner join product as p on p.id_prod=s.id_product ".
             "where id_user=? and  p.name_prod like CONCAT(%,?,%);";
@@ -171,26 +174,72 @@ class ProductDAO{
         }
     }
 
-    // 
-    public function queryForSale($query){
+    public function getBills($consulta){
         if(!$this->connection) return null;
-        $consulta="";
-        $parametros=array();
-        if(empty($query)){
-            $consulta="select ".
-            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale , us.username,CONCAT( us.name_user,' ' , us.last_name) as name_ln,  YEAR(now())-YEAR(us.birthdate) as edad ".
-            "from sales as s ".
-            "inner join product as p on p.id_prod=s.id_product ".
-            "inner join user as us on us.id_user = s.id_user";
-        }else{
-            $consulta="select ".
-            "id_product , p.name_prod, p.url_img, s.price as price_sale ,p.id_ctg_p, s.date_sale , us.username,CONCAT( us.name_user,' ' , us.last_name) as name_ln,  YEAR(now())-YEAR(us.birthdate) as edad ".
-            "from sales as s ".
-            "inner join product as p on p.id_prod=s.id_product ".
-            "inner join user as us on us.id_user = s.is_user".
-            "where like  p.name_prod CONCAT(%,?,%);";
-            $parametros=array($id_user,$query);
+        
+        try{
+            $sentencia = $this->connection->prepare($consulta);
+            $parametros=array();
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_CLASS,"Bill");
+            return $resultSet;
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
         }
+    }
+    // filtro-> 0. ni uno , 1. fecha, 2. usuario
+    public function getAllBill($filter,$query){
+        $parametros=array();
+        switch($filter){
+            case 0:
+                $sentencia="select * from bill";
+                break;
+            case 1:
+                $sentencia="select * from bill where date_sale like concat(%,?,%)";
+                $parametros=array($query);
+                break;
+            case 2:
+                // query by username, name or last name
+                $sentencia="select * from bill INNER JOIN user on user.id_user=bill.id_user where user.username like concat(%,?,%) or user.name_user like concat(%,?,%) or user.last_name like concat(%,?,%)";
+                $parametros=array($query,$query,$query);
+                break;
+            default:
+                $sentencia="select * from bill";
+                break;
+        }
+        
+        $bills=$this->getBills($sentencia);
+        foreach($bills as $bill){
+            $sales=$this->querySalesByBill(
+                "select * from bill as b".
+                "INNER JOIN sales as s on s.id_bill = b.id_bill".
+                "INNER join product as p on p.id_prod=s.id_product ".
+                "INNER JOIN category_p as ctg on ctg.id_ctg=p.id_ctg_p".
+                "INNER JOIN user as us on us.id_user=b.id_user".
+                "WHERE s.id_bill=?"
+                ,
+                array($bill->getId_bill())
+            );
+            $bill->addSales($sales);
+        }
+        return $bills;
+    }
+    public function getBillByClient($idUser){
+        $sentencia="select * from bill where id_user=?";
+        $bills=$this->getBills($sentencia);
+        foreach($bills as $bill){
+            $sales=$this->querySalesByBill(
+                "select * from sales as s INNER join product as p on p.id_prod=s.id_product INNER JOIN category_p as ctg on ctg.id_ctg=p.id_ctg_p WHERE s.id_bill=?",
+                array($bill->getId_bill())
+            );
+            $bill->addSales($sales);
+        }
+        return $bills;
+    }
+    // 
+    public function querySalesByBill($consulta, $parametros){
+        if(!$this->connection) return null;
         try{
             $sentencia = $this->connection->prepare($consulta);
             $sentencia->execute($parametros);
