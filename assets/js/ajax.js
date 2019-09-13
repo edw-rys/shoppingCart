@@ -68,21 +68,21 @@ function getPorductsSelected(){
                     subtotal+=precioTotal;
                     output+="<tr>"+
                             "<td>"+prod.product.name_prod+"</td>"+
-                            "<td>$ "+prod.product.price+"</td>"+
+                            "<td>$ "+parseInt(prod.product.price).toFixed(2)+"</td>"+
                             "<td>"+prod.product.discount+"%</td>"+
                             "<td><input type='number' value='"+prod.cant+"' onchange='changeValue("+prod.product.id_prod+","+prod.product.discount+","+prod.product.price+","+prod.product.quantity+", this);' min=1 max="+prod.product.quantity+"></td>"+
-                            "<td>$ "+(precioTotal)+"</td>"+
+                            "<td>$ "+(precioTotal).toFixed(2)+"</td>"+
                             "<td><button class='btn-remove-item' onclick='removeItem(this.parentNode.parentNode,"+prod.product.id_prod+")'>x<button></td>"+
                             "</tr>";
                 }
                 foot.innerHTML="<p class='flex space-around'>"+
-                                    "<span>Subtotal</span><span>$ "+subtotal+"</span>"+
+                                    "<span>Subtotal</span><span>$ "+subtotal.toFixed(2)+"</span>"+
                                 "</p>"+
                                 "<p class='flex space-around'>"+
-                                    "<span>Iva 12%</span><span>$ "+subtotal*0.12+"</span>"+
+                                    "<span>Iva 12%</span><span>$ "+(subtotal*0.12).toFixed(2)+"</span>"+
                                 "</p>"+
                                 "<p class='flex space-around'>"+
-                                    "<span>Total</span><span>$ "+subtotal*1.12+"</span>"+
+                                    "<span>Total</span><span>$ "+(subtotal*1.12).toFixed(2)+"</span>"+
                                 "</p>";
                 tableItems.tBodies[0].innerHTML=output;
 
