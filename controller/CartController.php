@@ -24,9 +24,9 @@ class CartController {
                     }
                     $item["cant"]=$cant;
                     $band=false;
+                    $items[$i]= $item;
                     break;
                 }
-                $items[$i]= $item;
                 $i++;
             }
             if($band)

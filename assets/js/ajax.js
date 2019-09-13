@@ -98,7 +98,7 @@ changeValue=(id_prod,discount, price,max, input)=>{
     input.value = input.value > 1? input.value:1;
     input.value = input.value > max? max:input.value;
     let precioTotal=(((100-discount)/100)*price*input.value);
-    input.parentNode.parentNode.children[4].innerHTML="$ "+precioTotal;
+    input.parentNode.parentNode.children[4].innerHTML="$ "+precioTotal.toFixed(2);
     addCart(id_prod,input.value, "change");
 }
 
