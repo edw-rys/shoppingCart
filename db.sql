@@ -1,6 +1,8 @@
 DROP DATABASE IF EXISTS pasteleria;
+
 create DATABASE pasteleria;
 use pasteleria;
+
 -- Table - Continent
 create table continent(
 	id_continent int auto_increment,
@@ -112,6 +114,7 @@ create table sales(
 	id_sale int auto_increment,
 	id_product int not null,
 	price int not null,
+	quantity_sale int not null,
 	id_bill INT not null,
 	PRIMARY KEY (id_sale),
 	FOREIGN KEY (id_product) REFERENCES product(id_prod),
@@ -129,3 +132,6 @@ create table i_like(
 	FOREIGN KEY (id_product) REFERENCES product(id_prod)
 )ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+INSERT INTO `bill` (`id_bill`, `id_user`, `price`, `date_sale`) VALUES ('1', '2', '25.3', '2019-09-25'), ('2', '3', '25.3', '2019-09-25');
+INSERT INTO `sales` (`id_sale`, `id_product`, `price`, `id_bill`,quantity_sale) VALUES ('1', '5', '12.2', '1',2), ('2', '4', '2', '1',1);
+INSERT INTO `sales` (`id_sale`, `id_product`, `price`, `id_bill`,quantity_sale) VALUES ('3', '8', '12.2', '1',1), ('4', '7', '21', '2',3);

@@ -123,12 +123,6 @@ class UserController{
 
         // Productos que le gusta
         $itemsLike=$this->productController->products_like($user->getId_user(),"");
-        // Productos que ha comprado
-        // if($user->getId_typeuser()==CLIENT)
-            // $itemsBuyout=$this->productController->products_buyout($user->getId_user(),"");
-        // else if($user->getId_typeuser()==ADMIN)
-            // $items_Sale=$this->productController->products_Sale("");
-
         require_once HEADER;
         require_once 'view/User/profile.php';
         require_once FOOTER;
@@ -147,5 +141,22 @@ class UserController{
         require_once HEADER;
         require_once 'view/User/profileEdit.php';
         require_once FOOTER;
+    }
+
+
+    // 
+    public function i_like_product(){
+        if(isset($_SESSION['USER'])){
+            $idproduct=isset($_REQUEST['idp'])?$_REQUEST['idp']:"";
+            $res=$this->userDao->like_product_by_user($_SESSION["ID_USER"],$idproduct);
+            if(!empty($res)){
+                $val=$this->userDao->removeLike($_SESSION["ID_USER"],$idproduct);
+                if($val>0){echo "no-like";}
+            }else{
+                $val= $this->userDao->addLike($_SESSION["ID_USER"],$idproduct);
+                if($val>0){echo "like";}
+            }
+        }
+
     }
 }

@@ -6,7 +6,7 @@
         </div>
         <?php
     }?>
-    <img src="<?php echo $prod->getUrl_img()?>" alt="<?php echo $prod->getName()?>">
+    <img src="<?php echo $prod->getUrl_img()?>" alt="<?php echo $prod->getName()?>" style="height:250px">
     <div class="buy flex space-btw">
         <?php 
         if( $prod->getDiscount()!=0) 
@@ -20,6 +20,6 @@
     </div>
     <div class="description flex space-btw flex-x flex-center">
         <span><?php echo $prod->getName()?></span>
-        <a href="#!" class="btn-like flex-center <?php echo $prod->isI_like()?'like':'no-like'?>"><img src="<?php echo ROUTEIMG.'icons/heart-regular.svg'?>" alt=""></a>
+        <a href="#!" class="btn-like flex-center <?php echo $prod->isI_like()?'like':'no-like'?>" onclick="iLikeProduct('<?php echo $prod->getId()?>',this)"><img src="<?php echo ROUTEIMG.'icons/heart-regular.svg'?>" alt=""></a>
     </div>
 </div>

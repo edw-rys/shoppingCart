@@ -28,9 +28,6 @@
             </div>
         </div>
         <div class="_footer" id="footer-modal">
-            <p class="flex space-around"><span>Subtotal</span><span>15</span></p>
-            <p class="flex space-around"><span>Subtotal</span><span>15</span></p>
-            <p class="flex space-around"><span>Total</span><span>15</span></p>
         </div>
         <div class="m-20"></div>
         <div class="send flex flex-center">

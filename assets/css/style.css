@@ -367,9 +367,7 @@ footer .grid-column .content{
     --width-card-product:300px;
     /* max-height: var(--mix-height-panel); */
 }
-.all-items .producto img{
-    height: initial;
-}
+
 .producto{
     position: relative;
     margin-right: 20px;
@@ -406,7 +404,6 @@ footer .grid-column .content{
     border-radius: 5px;
 }
 .producto:hover > .buy{
-
     opacity: 1;
 }
 .producto .buy{

@@ -93,4 +93,45 @@ class UserDAO{
             die($e->getTrace()); // traza del error
         }
     }
+    // dar like producto deseado o eliminarlo
+    public function like_product_by_user($idUser, $id_product){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare("select * from i_like where id_user=? and id_product=?");
+            $parametros = array($idUser, $id_product);
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetch(PDO::FETCH_OBJ);
+            // $sentencia->closeCursor();
+            return $resultSet;
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
+    public function addLike($idUser, $id_product){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare("insert into i_like(id_user,id_product) values(?,?)");
+            $parametros = array($idUser, $id_product);
+            $sentencia->execute($parametros);
+            $sentencia->closeCursor();
+            return $sentencia->rowCount();
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
+    public function removeLike($idUser, $id_product){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare("delete from i_like where id_user=? and id_product=?");
+            $parametros = array($idUser, $id_product);
+            $sentencia->execute($parametros);
+            $sentencia->closeCursor();
+            return $sentencia->rowCount();
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
 }

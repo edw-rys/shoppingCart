@@ -30,6 +30,24 @@ function queryCartCantItems(){
     xmlHttp.send();
 }
 
+iLikeProduct=(id_prod,btn)=>{
+    xmlHttp= new XMLHttpRequest();
+    xmlHttp.open("POST",'index.php?c=user&a=i_like_product');
+    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlHttp.onreadystatechange = ()=>{
+        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            var res=xmlHttp.responseText;
+            if(res){
+                btn.classList="btn-like flex-center "+res;
+                console.log(res)
+                // cart.children[1].innerHTML=res;
+            }
+        }
+    };
+    xmlHttp.send("idp="+id_prod);
+}
+
+
 const tableItems=document.getElementById("table-items-shop");
 const foot=document.getElementById("footer-modal");
 
@@ -58,13 +76,13 @@ function getPorductsSelected(){
                             "</tr>";
                 }
                 foot.innerHTML="<p class='flex space-around'>"+
-                                    "<span>Subtotal</span><span>"+subtotal+"</span>"+
+                                    "<span>Subtotal</span><span>$ "+subtotal+"</span>"+
                                 "</p>"+
                                 "<p class='flex space-around'>"+
-                                    "<span>Iva 12%</span><span>"+subtotal*0.12+"</span>"+
+                                    "<span>Iva 12%</span><span>$ "+subtotal*0.12+"</span>"+
                                 "</p>"+
                                 "<p class='flex space-around'>"+
-                                    "<span>Total</span><span>"+subtotal*1.12+"</span>"+
+                                    "<span>Total</span><span>$ "+subtotal*1.12+"</span>"+
                                 "</p>";
                 tableItems.tBodies[0].innerHTML=output;
 
@@ -74,7 +92,6 @@ function getPorductsSelected(){
     };
     xmlHttp.send();
 }
-queryCartCantItems();
 
 changeValue=(id_prod,discount, price,max, input)=>{
 
@@ -101,3 +118,5 @@ removeItem=(row, id_item)=>{
     };
     xmlHttp.send("item="+ id_item);
 }
+
+queryCartCantItems();

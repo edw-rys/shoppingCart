@@ -212,16 +212,26 @@ class ProductDAO{
         $bills=$this->getBills($sentencia);
         foreach($bills as $bill){
             $sales=$this->querySalesByBill(
-                "select * from bill as b".
-                "INNER JOIN sales as s on s.id_bill = b.id_bill".
+                "select  B.id_bill, b.id_user, b.price as price_tot, b.date_sale, ".
+                "s.id_sale, s.price as price_sale, s.quantity_sale ,".
+                "p.id_prod,p.name_prod, p.description , p.url_img,p.quantity, p.price as price_product, ".
+                "ctg.id_ctg,ctg.name_ctg,us.id_user, us.username, us.name_user, us.last_name, us.birthdate, us.mail, ".
+                "g.id_gender, g.name_gender,c.id_country, c.name_cy,cont.id_continent, cont.name_ct ".
+                "from bill as b ".
+                "INNER JOIN sales as s on s.id_bill = b.id_bill ".
                 "INNER join product as p on p.id_prod=s.id_product ".
-                "INNER JOIN category_p as ctg on ctg.id_ctg=p.id_ctg_p".
-                "INNER JOIN user as us on us.id_user=b.id_user".
+                "INNER JOIN category_p as ctg on ctg.id_ctg=p.id_ctg_p ".
+                "INNER JOIN user as us on us.id_user=b.id_user ".
+                "INNER JOIN country as c on c.id_country=us.id_country ".
+                "INNER JOIN continent as cont on cont.id_continent=c.id_continent ".
+                "INNER JOIN gender as g on g.id_gender=us.id_gender  ".
                 "WHERE s.id_bill=?"
                 ,
                 array($bill->getId_bill())
             );
-            $bill->addSales($sales);
+            // var_dump($sales);
+            if(!empty($sales))
+                $bill->setSales($sales);
         }
         return $bills;
     }
@@ -233,6 +243,7 @@ class ProductDAO{
                 "select * from sales as s INNER join product as p on p.id_prod=s.id_product INNER JOIN category_p as ctg on ctg.id_ctg=p.id_ctg_p WHERE s.id_bill=?",
                 array($bill->getId_bill())
             );
+            if(!empty($sales))
             $bill->addSales($sales);
         }
         return $bills;

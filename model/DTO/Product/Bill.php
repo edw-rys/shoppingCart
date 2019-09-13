@@ -4,15 +4,20 @@ class Bill{
     private $id_user;
     private $price;
     private $date_sale;
-    private $Sales;
+    private $Sales=array();
     private $User;
 
     public function __construct(){}
     
 
-    public function addSlaes($sales)
-    {
-        array_push($this->$Sales, $sales);
+    public function getSales(){
+        return $this->Sales;
+    }
+    public function setSales($sales){
+        $this->Sales=$sales;
+    }
+    public function addSales($sales){
+        array_push($this->Sales, $sales);
     }
     function getId_bill() {
         return $this->id_bill;
