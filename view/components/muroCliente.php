@@ -5,5 +5,5 @@
     <?php include_once "view/components/I_like.php"?>
 </div>
 <div class="shopping">
-    <!-- <?php include_once "view/components/shopping.php"?> -->
+    <?php include_once "view/components/shopping.php"?>
 </div>
