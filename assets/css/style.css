@@ -45,7 +45,6 @@
 #window-modal-items{
     z-index: 800;
     position: fixed;
-
 }
 #window-modal-items::before{
     content: "" ;
@@ -68,8 +67,7 @@
     background: var(--color-panel);
 }
 .items-panel ._head,.items-panel  ._body{
-    background: var(--color-head);
-    
+    background: var(--color-head); 
 }
 .tbl-header{
     background: rgb(4, 117, 173);
@@ -507,6 +505,39 @@ footer .grid-column .content{
 input[name="gender"]{
     opacity: 0;
 }
+.image-select{
+    overflow: hidden;
+    cursor: pointer;
+}
+.image-select input{
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    height: 50px;cursor: pointer;
+}
+.gradient-00B4DB{
+    --color-button:#00B4DB;
+    --color-button:-webkit-linear-gradient(to right, #0083B0, #00B4DB);
+    --color-button:linear-gradient(to right, #0083B0, #00B4DB);
+    background: #00B4DB;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0083B0, #00B4DB);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0083B0, #00B4DB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.image-select .icon i  {    
+    font-size: 2em;
+    padding: 8px;
+    color: #ffF;
+    border-radius: 20%;
+}
+.image-upload{
+    max-height: 300px;
+}
+.image-upload img{
+    width: auto;
+    height: 100%;
+    max-height: 300px;
+}
 .container-gender-input .gender-label input[name="gender"]:checked + .capa {
     background-color: var(--color-gender);
     transform: scale(1.1, 1.1);
@@ -526,7 +557,7 @@ input[name="gender"]{
 }
 
 .button-send{
-    background: #0097E3;
+    background: var(--color-button);
     border: none;
     padding: 5px 20px;
     border-radius: 10px;

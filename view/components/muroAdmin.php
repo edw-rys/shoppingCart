@@ -6,7 +6,7 @@
     </section>
     <section class="flex-y">
         <h2>Productos</h2>
-        <a href="index.php?c=product&a=getBill">Nuevo</a>
+        <a href="#!" onclick="activePanelInsertProduct()">Nuevo</a>
         <a href="index.php?c=product&a=getBill">Editar</a>
     </section>
 </div>

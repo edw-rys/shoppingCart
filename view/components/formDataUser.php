@@ -37,7 +37,7 @@
                     <?php 
         
                     if(isset($continents)){
-                        print_r($continents);
+                        // print_r($continents);
                         foreach($continents as $cont){
                             ?>
                             <optgroup label="<?php echo $cont[0]->name_ct?>">

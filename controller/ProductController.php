@@ -1,6 +1,7 @@
 <?php
 require_once 'config/config.php';
 require_once "model/DTO/Product/Product.php";
+require_once "model/DTO/Image.php";
 // require_once "model/DTO/Product/CategoryProduct_.php";
 require_once "model/DAO/ProductDAO.php";
 class ProductController{
@@ -68,4 +69,67 @@ class ProductController{
     public function getProductById($idP){
         return $this->productDao->queryById($idP);        
     }
+
+    public function add(){
+        if(!(isset($_SESSION["TYPE_US_C"]) && $_SESSION["TYPE_US_C"]==ADMIN)){
+            $_SESSION["message"]="¡Acceso no permitido!";
+            $_SESSION["typeMessage"]="error"; 
+            header("Location:index.php");
+            return;
+        }
+        echo $_POST["name_p"];
+        if(!(isset($_POST["name_p"]) && isset($_POST["description_p"]) 
+            && isset($_FILES['img_p']) && isset($_POST["ctg_p"]) && isset($_POST["discount"])
+            && isset($_POST["quantity_p"]) && isset($_POST["price"]) )){
+                $_SESSION["message"]="Complete todos los campos";
+                $_SESSION["typeMessage"]="error"; 
+                header("Location:index.php?c=user&a=profile");
+            return;
+        }else{
+            $product=new Product();
+            $product->setName($_POST["name_p"]);
+            $product->setDescription($_POST["description_p"]);
+            $product->setQuantity($_POST["quantity_p"]);
+            $product->setPrice($_POST["price"]);
+            $product->setDiscount($_POST["discount"]);
+            $product->setCategory($_POST["ctg_p"]);
+            $status=0;
+
+            $dir=Image::getDirImg("img_p");
+            if($dir=="err_size"){
+                $_SESSION["message"]="Archivo muy pesado, tamaño máximo de 2mb";
+                $_SESSION["typeMessage"]="error"; 
+                header("Location:index.php?c=user&a=profile");
+                return;
+            }
+            if($dir=="err_ext"){
+                $_SESSION["message"]="Archivo no es válido";
+                $_SESSION["typeMessage"]="error";
+                header("Location:index.php?c=user&a=profile");
+                return;
+            }
+            $product->setUrl_img($dir);
+            if(isset($_REQUEST["id_p"])){
+                $product->setId($_REQUEST["id_p"]);
+                $status=$this->productDao->update($product);
+                $_SESSION["message"]=($status>0)?"Editado exitosamente":"Error al editar";
+                $_SESSION["typeMessage"]=($status>0)?"info":"error"; 
+            }else{
+                $status=$this->productDao->insert($product);
+                $_SESSION["message"]=($status>0)?"Guardado exitosamente":"Error al guardar";
+                $_SESSION["typeMessage"]=($status>0)?"info":"error"; 
+            }
+            header("Location:index.php?c=user&a=profile");
+            return;
+        }
+    }
+    public function view_insert(){
+        $all_category=$this->productDao->queryCtg();
+        $pageName="Porductos";
+        $action=isset($_REQUEST["act"])?$_REQUEST["act"]:"Guardar";
+        require_once "view/components/formProduct.php";
+    }
+    public function change_status(){
+    }
+
 }

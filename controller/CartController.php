@@ -57,7 +57,10 @@ class CartController {
                         "cant"=> $item["cant"]);
             array_push($products,$product);
         }
-        echo json_encode($products);
+        if(!empty($items))
+            require_once "view/components/windowModalItems.php";
+        
+        // echo json_encode($products);
     }
     // comprar
     // INCOMPLETA
@@ -75,12 +78,15 @@ class CartController {
             $i=0;
             foreach($items as $item){
                 if( $item["id_item"] == $_REQUEST['item'] ){
-                    array_splice($items,$i);
+                    unset($items[$i]);
+                    $items = array_values($items);
                     $band=true;
+                    echo "find";
                     break;
                 }
                 $i++;
             }
+            echo $band?"true":"false";
             $_SESSION['items'] = $items;
             echo $band;
         }else{

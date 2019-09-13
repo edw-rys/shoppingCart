@@ -50,6 +50,7 @@ iLikeProduct=(id_prod,btn)=>{
 
 const tableItems=document.getElementById("table-items-shop");
 const foot=document.getElementById("footer-modal");
+const windowModal=document.getElementById("windowModal");
 
 function getPorductsSelected(){
     xmlHttp= new XMLHttpRequest();
@@ -58,12 +59,14 @@ function getPorductsSelected(){
 
     xmlHttp.onreadystatechange = ()=>{
         if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            var products=JSON.parse(xmlHttp.responseText);
-            console.log(products)
-            if(products.length>0){
-                let subtotal=0;
-                output="";
-                for(let prod of products){
+            var view=xmlHttp.responseText;
+            // console.log(view)
+            if(view){
+                windowModal.querySelector("._body").innerHTML=view;
+                windowModal.classList.remove("hidden")
+                // let subtotal=0;
+                // output="";
+                /*for(let prod of products){
                     let precioTotal=(((100-prod.product.discount)/100)*prod.product.price*prod.cant);
                     subtotal+=precioTotal;
                     output+="<tr>"+
@@ -86,7 +89,7 @@ function getPorductsSelected(){
                                 "</p>";
                 tableItems.tBodies[0].innerHTML=output;
 
-                removeClass('#window-modal-items','hidden');
+                removeClass('#window-modal-items','hidden');*/
             }
         }
     };
@@ -119,4 +122,20 @@ removeItem=(row, id_item)=>{
     xmlHttp.send("item="+ id_item);
 }
 
+// Panel insert product
+activePanelInsertProduct=(action="insert")=>{
+    xmlHttp= new XMLHttpRequest();
+    xmlHttp.open("POST",'index.php?c=product&a=view_insert');
+    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlHttp.onreadystatechange = ()=>{
+        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            var view=xmlHttp.responseText;
+            if(view){
+                windowModal.querySelector("._body").innerHTML=view;
+                windowModal.classList.remove("hidden");
+            }
+        }
+    };
+    xmlHttp.send();
+}
 queryCartCantItems();

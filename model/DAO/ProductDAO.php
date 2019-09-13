@@ -10,6 +10,20 @@ class ProductDAO{
     public function __construct(){
         $this->connection =  Connection::getConnection();
     }
+    // Obtener las categorías
+    public function queryCtg(){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare("select * from category_p");
+            $parametros=array();
+            $sentencia->execute($parametros);
+            $resultSet = $sentencia->fetchAll(PDO::FETCH_OBJ);
+            return $resultSet;
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
     // Obtener los productos
     public function query($query){
         if(!$this->connection) return null;
@@ -271,6 +285,58 @@ class ProductDAO{
             $resultSet = $sentencia->fetchAll(PDO::FETCH_OBJ);
             if(!empty($resultSet))
                 return $resultSet[0];
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
+    // Agregar producto
+    public function insert(Product $product){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare(
+                "insert into product(name_prod, description, url_img, quantity , price,discount,id_ctg_p)".
+                " values (?,?,?,?,?,?,?)");
+
+            $parametros = array(
+                $product->getName(),$product->getDescription(),$product->getUrl_img(),
+                $product->getQuantity(),$product->getPrice(),$product->getDiscount(),
+                $product->getCategory());
+
+            $sentencia->execute($parametros);
+            return $sentencia->rowCount();
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
+    public function update(Product $product){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare(
+                "update product set name_prod=? , description=? , url_img=? ,quantiy=?,price=?,".
+                "discount=?, id_ctg_p=?  where id_prod=?;");
+
+            $parametros = array(
+                $product->getName(),$product->getDescription(),$product->getUrl_img(),
+                $product->getQuantity(),$product->getPrice(),$product->getDiscount(),
+                $product->getCategory(), $product->getId());
+
+            $sentencia->execute($parametros);
+            return $sentencia->rowCount();
+        }catch(Exception $e){
+            die($e->getMessage());
+            die($e->getTrace()); // traza del error
+        }
+    }
+    public function changeStatus($id_product,$status){
+        if(!$this->connection) return null;
+        try{
+            $sentencia = $this->connection->prepare(
+                "update product set status=?  where id_prod=?;");
+            $parametros = array($id_product,$status);
+            $sentencia->execute($parametros);
+            return $sentencia->rowCount();
         }catch(Exception $e){
             die($e->getMessage());
             die($e->getTrace()); // traza del error

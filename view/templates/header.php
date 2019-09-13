@@ -7,7 +7,9 @@
     <title><?php echo $pageName?></title>
     <link rel="stylesheet" href="<?php echo ROUTECSS.'/base.css';?> ">
     <link rel="stylesheet" href="<?php echo ROUTECSS.'/style.css';?> ">
+    <link rel="stylesheet" href="<?php echo ROUTECSS.'/iconistic.min.css';?> ">
     <link rel="icon" type="image/png" href ="assets/img/logo.png">
+    <!-- icons -->
 </head>
 <body>
     <?php require_once CART;?>

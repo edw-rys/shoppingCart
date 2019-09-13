@@ -37,3 +37,22 @@ controlPanelMssgClear=()=>{
     panel.firstElementChild.firstElementChild.innerHTML="";
 }
 
+preview=(input, query)=>{
+    if(input.files && input.files[0]){	
+        this.queryimginsert=query;
+        var reader=new FileReader();
+        reader.onload=function(e){
+            var panel=document.querySelector(self.queryimginsert);
+            panel.innerHTML="<img src='"+ e.target.result+"'>";
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function checkFile(){
+    var fileInput =document.getElementById('file-img');
+    var filePath=fileInput .value;
+    var allowedExtensions = /(.jpg|.jpeg|.png|.gif|.jfif)$/i;
+    console.log(filePath);
+    return allowedExtensions.exec(filePath);
+}

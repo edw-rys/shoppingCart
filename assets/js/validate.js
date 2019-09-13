@@ -76,3 +76,6 @@ function validateNewUser(){
     return false;
 }
 
+validateProduct=()=>{
+    var form=document.getElementById("form-product");
+}

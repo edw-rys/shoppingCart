@@ -30,6 +30,7 @@ html{
     --dark:                     #161716;
 	--bck-panel-content:        #fff;
 	--color-head:				#fff;
+	--color-button:				#005797;
 }
 .male,.masculino{
 	--color-gender:				#005797;
@@ -86,14 +87,32 @@ p,a,i,span,li{
 .center{
 	margin:  auto;
 }
-
 /* posicionamiento */
+.hack-center{
+	position: fixed;
+	top: 10%;
+	left: 0%;
+	right: 0%;
+}
+@media(min-width:750px){
+	.hack-center{
+		position: fixed;
+		top: 10%;
+		left: 25%;
+		right: 25%;
+	}
+}
 .fixed-center , .center-fixed{
 	position: fixed;
 	left: 50%;
 	top: 50%;
+	transform: translate(-50%,-50%);
 	transform: translate(-50%, -50%);
-	-webkit-transform: translate(-50%, -50%) 
+}
+.fixed-center p, .center-fixed p,
+.fixed-center span, .center-fixed span,
+.fixed-center td, .center-fixed td{ 
+	-webkit-font-smoothing: antialiased;
 }
 .abs-center,.center-abs{
 	position: absolute;
@@ -231,4 +250,32 @@ p,a,i,span,li{
 }
 .wid-100p{
 	width: 100%;
+}
+.window-modal-bck{
+	z-index: 800;
+    position: fixed;
+}
+.window-modal-bck::before{
+    content: "" ;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: RGBA(0,0,0,0.47);
+    z-index: 900;
+}
+.window-white{
+	background: #fff;
+	padding: 5px;
+	border-radius: 10px;
+}
+.window-modal-bck ._body{
+	max-height: 500px;
+	overflow-y: auto;
+}
+.z-index-900{
+	z-index: 900;
 }

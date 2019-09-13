@@ -36,6 +36,7 @@ class UserController{
         }else{
             $_SESSION['ID_USER']=$user->getId_user();
             $_SESSION['USER']=$user;
+            $_SESSION["TYPE_US_C"]=$user->getId_typeuser();
             header("Location:index.php");
         }
     }

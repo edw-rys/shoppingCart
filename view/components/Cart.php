@@ -3,4 +3,4 @@
     <span class="cant-items">0</span>
     <a href="#!" class="view txt-dc-none" onclick="getPorductsSelected()"> Ver items </a>
 </div>
-<?php include_once "view/components/windowModalItems.php"?>
+<?php include_once  "view/components/windowModal.php"?>

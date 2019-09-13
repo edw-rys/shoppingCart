@@ -8,7 +8,7 @@ define("ROUTEAPP","http://".SERVER."/".NAMEAPP);
 define("ROUTECSS",ROUTEAPP.'/assets/css');
 define("ROUTEJS",ROUTEAPP.'/assets/js');
 define("ROUTEIMG",'assets/img/');
-
+define("ROUTEFILES",ROUTEIMG.'picture/');
 
 //encabezado y pie
 define('HEADER', 'view/templates/header.php');

@@ -85,19 +85,20 @@ create table product(
 	price decimal(10,2) not null,
 	discount int DEFAULT 0,
 	id_ctg_p int not null,
+	status int DEFAULT 1,
 	PRIMARY KEY (id_prod),
 	FOREIGN KEY (id_ctg_p) REFERENCES category_p(id_ctg)
 )ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 insert into product values
-	(1,"pastel de chocolate","pastel 1","assets/img/picture/img1.jpg",50,20.2,0,2),
-	(2,"pastel de frutilla","pastel 1","assets/img/picture/img2.jpg",5,15.2,20,2),
-	(3,"cupcake 1","cupcake","assets/img/picture/img3.jpg",100,1.25,0,1),
-	(4,"cupcake 2","cupcake","assets/img/picture/img4.jpg",80,1.50,0,1),
-	(5,"pan de sal","panes","assets/img/picture/img5.jpg",100,0.5,0,3),
-	(6,"brownie","brownie","assets/img/picture/img6.jpg",120,1.50,0,1),
-	(7,"tarta de manzana","tarta 1","assets/img/picture/img7.jpg",10,14.2,10,4),
-	(8,"tarta de piña","tarta 2","assets/img/picture/img8.jpg",20,12.2,40,4);
+	(1,"pastel de chocolate","pastel 1","assets/img/picture/img1.jpg",50,20.2,0,2,1),
+	(2,"pastel de frutilla","pastel 1","assets/img/picture/img2.jpg",5,15.2,20,2,1),
+	(3,"cupcake 1","cupcake","assets/img/picture/img3.jpg",100,1.25,0,1,1),
+	(4,"cupcake 2","cupcake","assets/img/picture/img4.jpg",80,1.50,0,1,1),
+	(5,"pan de sal","panes","assets/img/picture/img5.jpg",100,0.5,0,3,1),
+	(6,"brownie","brownie","assets/img/picture/img6.jpg",120,1.50,0,1,1),
+	(7,"tarta de manzana","tarta 1","assets/img/picture/img7.jpg",10,14.2,10,4,1),
+	(8,"tarta de piña","tarta 2","assets/img/picture/img8.jpg",20,12.2,40,4,1);
 
 -- tabla de factura
 create table bill(
