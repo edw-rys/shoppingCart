@@ -1,50 +1,34 @@
 const cart=document.getElementById("shopping-cart");
+
 function addCart(id_item, value=1, action="none"){
-    xmlHttp= new XMLHttpRequest();
-    xmlHttp.open("POST",'index.php?c=cart&a=addItem');
-    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlHttp.onreadystatechange = ()=>{
-        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            var res=xmlHttp.responseText;
-            if(res){
-                cart.children[1].innerHTML=res;
-            }
-        }
-    };
+    let cart=new FormData();
+    cart.set("item",id_item);
+    cart.set("v",value);
     // action => 1-> sumar , 2->restar
-    xmlHttp.send("item="+ id_item+"&v="+value+"&act="+action);
+    cart.set("act",action);
+    fetch(`${URL_APP}cart/addItem`,{method:"POST",body:cart})
+    .then(res=>res.text())
+    .then(res=>{ queryCartCantItems() })
+    .catch(err=>console.log(err));
 }
 function queryCartCantItems(){
-    xmlHttp= new XMLHttpRequest();
-    xmlHttp.open("POST",'index.php?c=cart&a=count');
-    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-
-    xmlHttp.onreadystatechange = ()=>{
-        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            var res=xmlHttp.responseText;
-            if(res){
-                cart.children[1].innerHTML=res;
-            }
-        }
-    };
-    xmlHttp.send();
+    fetch(`${URL_APP}cart/count`)
+    .then(res=>res.text())
+    .then(res=>{   cart.children[1].innerHTML=res; })
+    .catch(err=>console.log(err));
 }
 
 iLikeProduct=(id_prod,btn)=>{
-    xmlHttp= new XMLHttpRequest();
-    xmlHttp.open("POST",'index.php?c=user&a=i_like_product');
-    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlHttp.onreadystatechange = ()=>{
-        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            var res=xmlHttp.responseText;
-            if(res){
-                btn.classList="btn-like flex-center "+res;
-                console.log(res)
-                // cart.children[1].innerHTML=res;
-            }
+    let cart=new FormData();
+    cart.set("idp",id_prod);
+    fetch(`${URL_APP}user/i_like_product`,{method:"POST",body:cart})
+    .then(res=>{return res.text() })
+    .then(res=>{ 
+        if(res){
+            btn.classList="btn-like flex-center "+res;
         }
-    };
-    xmlHttp.send("idp="+id_prod);
+    })
+    .catch(err=>console.log(err));
 }
 
 
@@ -53,51 +37,18 @@ const foot=document.getElementById("footer-modal");
 const windowModal=document.getElementById("windowModal");
 
 function getPorductsSelected(){
-    xmlHttp= new XMLHttpRequest();
-    xmlHttp.open("POST",'index.php?c=cart&a=get');
-    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    fetch(`${URL_APP}cart/get`)
+    .then(res=>res.text())
+    .then(view=>{   
+        windowModal.querySelector("._body").innerHTML=view;
+        windowModal.classList.remove("hidden")
+    })
+    .catch(err=>console.log(err));
 
-    xmlHttp.onreadystatechange = ()=>{
-        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            var view=xmlHttp.responseText;
-            // console.log(view)
-            if(view){
-                windowModal.querySelector("._body").innerHTML=view;
-                windowModal.classList.remove("hidden")
-                // let subtotal=0;
-                // output="";
-                /*for(let prod of products){
-                    let precioTotal=(((100-prod.product.discount)/100)*prod.product.price*prod.cant);
-                    subtotal+=precioTotal;
-                    output+="<tr>"+
-                            "<td>"+prod.product.name_prod+"</td>"+
-                            "<td>$ "+parseInt(prod.product.price).toFixed(2)+"</td>"+
-                            "<td>"+prod.product.discount+"%</td>"+
-                            "<td><input type='number' value='"+prod.cant+"' onchange='changeValue("+prod.product.id_prod+","+prod.product.discount+","+prod.product.price+","+prod.product.quantity+", this);' min=1 max="+prod.product.quantity+"></td>"+
-                            "<td>$ "+(precioTotal).toFixed(2)+"</td>"+
-                            "<td><button class='btn-remove-item' onclick='removeItem(this.parentNode.parentNode,"+prod.product.id_prod+")'>x<button></td>"+
-                            "</tr>";
-                }
-                foot.innerHTML="<p class='flex space-around'>"+
-                                    "<span>Subtotal</span><span>$ "+subtotal.toFixed(2)+"</span>"+
-                                "</p>"+
-                                "<p class='flex space-around'>"+
-                                    "<span>Iva 12%</span><span>$ "+(subtotal*0.12).toFixed(2)+"</span>"+
-                                "</p>"+
-                                "<p class='flex space-around'>"+
-                                    "<span>Total</span><span>$ "+(subtotal*1.12).toFixed(2)+"</span>"+
-                                "</p>";
-                tableItems.tBodies[0].innerHTML=output;
-
-                removeClass('#window-modal-items','hidden');*/
-            }
-        }
-    };
-    xmlHttp.send();
+    
 }
 
 changeValue=(id_prod,discount, price,max, input)=>{
-
     input.value = input.value > 1? input.value:1;
     input.value = input.value > max? max:input.value;
     let precioTotal=(((100-discount)/100)*price*input.value);
@@ -106,36 +57,30 @@ changeValue=(id_prod,discount, price,max, input)=>{
 }
 
 removeItem=(row, id_item)=>{
-    xmlHttp= new XMLHttpRequest();
-    xmlHttp.open("POST",'index.php?c=cart&a=removeItem');
-    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlHttp.onreadystatechange = ()=>{
-        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            var res=xmlHttp.responseText;
-            console.log(res)
-            if(res){
-                row.parentNode.removeChild(row);
-                queryCartCantItems()
-            }
+    let cart=new FormData();
+    cart.set("item",id_item);
+    fetch(`${URL_APP}cart/removeItem`,{method:"POST",body:cart})
+    .then(res=>{return res.text() })
+    .then(res=>{ 
+        console.log(res);
+        if(res){
+            row.parentNode.removeChild(row);
+            queryCartCantItems();
         }
-    };
-    xmlHttp.send("item="+ id_item);
+    })
+    .catch(err=>console.log(err));
 }
 
 // Panel insert product
 activePanelInsertProduct=(action="insert")=>{
-    xmlHttp= new XMLHttpRequest();
-    xmlHttp.open("POST",'index.php?c=product&a=view_insert');
-    xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlHttp.onreadystatechange = ()=>{
-        if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            var view=xmlHttp.responseText;
-            if(view){
-                windowModal.querySelector("._body").innerHTML=view;
+    fetch(`${URL_APP}product/view_insert`)
+    .then(res=>{return res.text() })
+    .then(view=>{ 
+        if(view){
+            windowModal.querySelector("._body").innerHTML=view;
                 windowModal.classList.remove("hidden");
-            }
         }
-    };
-    xmlHttp.send();
+    })
+    .catch(err=>console.log(err));
 }
 queryCartCantItems();

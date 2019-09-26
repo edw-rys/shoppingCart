@@ -246,8 +246,8 @@ footer .grid-column .content{
 }
 
 .carousel ._container .item{
-    min-width: 100%;
-    position: relative;
+        min-width: 100%;
+        position: relative;
 }
 .carousel ._container img{
     width: 100%;
@@ -345,7 +345,7 @@ footer .grid-column .content{
     --size-container: 90%;
     width: var( --size-container);
 }
-#productos {
+.productos {
     --mix-height-panel: 250px;
     display: flex;
     flex-wrap: nowrap;
@@ -455,7 +455,7 @@ footer .grid-column .content{
     .container-product{
         --size-container: 80%;
     }
-    #productos {
+    .productos {
         --mix-height-panel: 350px;
     }
     .all-items{
